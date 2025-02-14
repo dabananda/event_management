@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Event Management{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-purple-500 shadow-lg">
+        <div>
+            <div class="flex justify-between items-center w-11/12 mx-auto">
+                <div class="">
+                    <a href="{% url 'homepage' %}" class="">
+                        <span class="font-semibold text-white text-lg">Event Management</span>
+                    </a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="{% url 'homepage' %}" class="py-4 px-2 text-white hover:text-indigo-200 transition duration-300">HOME</a>
+                    <a href="{% url 'dashboard' %}" class="py-4 px-2 text-white hover:text-indigo-200 transition duration-300">Dashboard</a>
+                    <a href="{% url 'event_list' %}" class="py-4 px-2 text-white hover:text-indigo-200 transition duration-300">Events</a>
+                    <a href="{% url 'category_list' %}" class="py-4 px-2 text-white hover:text-indigo-200 transition duration-300">Categories</a>
+                    <a href="{% url 'participant_list' %}" class="py-4 px-2 text-white hover:text-indigo-200 transition duration-300">Participants</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

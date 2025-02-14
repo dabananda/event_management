@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}{{ participant.name }}{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">{{ participant.name }}</h1>
+        <div>
+            <a href="{% url 'participant_update' participant.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-300 mr-2">Edit</a>
+            <a href="{% url 'participant_delete' participant.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300">Delete</a>
+        </div>
+    </div>
+    
+    <div class="mb-6">
+        <p><strong>Email:</strong> {{ participant.email }}</p>
+    </div>
+    
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold mb-2">Registered Events</h2>
+        {% if participant.events.exists %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="p-4 border-b text-left">Event Name</th>
+                            <th class="p-4 border-b text-left">Date</th>
+                            <th class="p-4 border-b text-left">Time</th>
+                            <th class="p-4 border-b text-left">Location</th>
+                            <th class="p-4 border-b text-left">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in participant.events.all %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 border-b">{{ event.name }}</td>
+                            <td class="p-4 border-b">{{ event.date }}</td>
+                            <td class="p-4 border-b">{{ event.time }}</td>
+                            <td class="p-4 border-b">{{ event.location }}</td>
+                            <td class="p-4 border-b">{{ event.category.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-600">Not registered for any events.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Events{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Events</h1>
+        <a href="{% url 'event_create' %}" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300">Add New Event</a>
+    </div>
+    
+    <form method="get" class="mb-6">
+        <div class="flex items-center">
+            <input type="text" name="search" placeholder="Search by name or location" 
+                   value="{{ request.GET.search }}"
+                   class="form-input rounded-l-md shadow-sm block w-full p-2 border">
+            <button type="submit" class="bg-indigo-600 text-white p-2 px-4 rounded-r-md hover:bg-indigo-700 transition duration-300">
+                Search
+            </button>
+        </div>
+    </form>
+    
+    {% if events %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b text-left">Event Name</th>
+                        <th class="py-2 px-4 border-b text-left">Date</th>
+                        <th class="py-2 px-4 border-b text-left">Location</th>
+                        <th class="py-2 px-4 border-b text-left">Category</th>
+                        <th class="py-2 px-4 border-b text-left">Participants</th>
+                        <th class="py-2 px-4 border-b text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-2 px-4 border-b">{{ event.name }}</td>
+                        <td class="py-2 px-4 border-b">{{ event.date }}</td>
+                        <td class="py-2 px-4 border-b">{{ event.location }}</td>
+                        <td class="py-2 px-4 border-b">{{ event.category.name }}</td>
+                        <td class="py-2 px-4 border-b">{{ event.participant_count }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <div class="flex">
+                                <a href="{% url 'event_detail' event.id %}" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300 mr-2">View</a>
+                                <a href="{% url 'event_update' event.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300 mr-2">Edit</a>
+                                <a href="{% url 'event_delete' event.id %}" class="bg-rose-500 text-white py-2 px-4 rounded hover:bg-rose-700 transition duration-300 mr-2">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-600">No events found.</p>
+    {% endif %}
+</div>
+{% endblock %}

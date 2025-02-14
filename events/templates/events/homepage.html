@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Event Management System{% endblock %}
+{% block content %}
+
+<div class="space-y-8 w-11/12 mx-auto">
+    <!-- Hero -->
+    <div class="relative bg-cover bg-center bg-no-repeat text-white rounded-lg shadow-xl" 
+        style="background-image: url('{% static "images/image_1.jpg" %}');">
+         <div class="p-8 rounded-lg">
+            <h1 class="text-4xl font-bold mb-8">Welcome to Event Management System</h1>
+            <p class="text-xl">Your one-stop solution for organizing and managing events</p>
+            <div class="flex space-x-4 mt-8">
+                <a href="{% url 'event_list' %}" class="bg-white text-indigo-600 hover:bg-indigo-100 px-4 py-2 rounded-md font-semibold transition duration-300">Browse Events</a>
+                <a href="{% url 'dashboard' %}" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-md font-semibold transition duration-300">Go to Dashboard</a>
+            </div>
+       </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6 flex items-center">
+            <div class="bg-green-100 p-4 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800">Total Events</h2>
+                <p class="text-3xl font-bold text-indigo-600">{{ total_events }}</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 flex items-center">
+            <div class="bg-blue-100 p-4 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800">Total Participants</h2>
+                <p class="text-3xl font-bold text-indigo-600">{{ total_participants }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Upcoming Events -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Upcoming Events</h2>
+                <a href="{% url 'event_list' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+            </div>
+            
+            {% if upcoming_events %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for event in upcoming_events|slice:":2" %}
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+                    <div class="bg-indigo-100 p-4">
+                        <p class="text-sm text-indigo-800 font-medium">{{ event.date }}</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mt-1">{{ event.name }}</h3>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ event.description|truncatewords:15 }}</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            {{ event.location }}
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ event.time }}
+                        </div>
+                        <a href="{% url 'event_detail' event.id %}" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition duration-300">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-600">No upcoming events scheduled.</p>
+            {% endif %}
+        </div>
+
+        <!-- Past Events -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Past Events</h2>
+                <a href="{% url 'event_list' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+            </div>
+            
+            {% if past_events %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for event in past_events|slice:":2" %}
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+                        <div class="bg-indigo-100 p-4">
+                            <p class="text-sm text-indigo-800 font-medium">{{ event.date }}</p>
+                            <h3 class="text-lg font-semibold text-gray-800 mt-1">{{ event.name }}</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ event.description|truncatewords:15 }}</p>
+                            <div class="flex items-center text-sm text-gray-500 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ event.location }}
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ event.time }}
+                            </div>
+                            <a href="{% url 'event_detail' event.id %}" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition duration-300">View Details</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-600">No upcoming events scheduled.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between">
+            <span class="text-2xl font-bold text-gray-800 mb-6 text-center">Event Categories</span>
+            <a href="{% url 'category_list' %}" class="text-indigo-600 hover:text-indigo-800 font-semibold">View All →</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% if categories %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for category in categories|slice:":2" %}
+                        <a href="{% url 'category_detail' category.id %}" class="bg-purple-200 border border-gray-200 hover:bg-purple-300 rounded-lg p-6 transition duration-300 shadow-md">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ category.name }}</h3>
+                            <p class="text-gray-600 mb-4">{{ category.description|truncatewords:10 }}</p>
+                            <p class="text-indigo-600 font-medium">{{ category.event_count }} Events</p>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-600">No categories available.</p>
+            {% endif %}    
+                    <div class="relative bg-cover bg-center bg-no-repeat text-white rounded-lg shadow-xl" 
+            style="background-image: url('{% static "images/image_2.jpg" %}');">
+                <div class='w-full h-full flex items-center justify-center bg-purple-200 bg-opacity-50 rounded-lg'>
+                    <h1 class="text-4xl font-bold mb-8 text-purple-800">Organize Your Events With Us</h1>
+                </div>
+            </div>                 
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-purple-500 rounded-lg shadow-md p-8">
+        <div class="flex justify-center space-x-4">
+            <span class="text-white">
+                <a class="hover:text-black hover:underline" href="https://github.com/dabananda" target="_blank">Dabananda Mitra</a>
+            </span>
+            <span class="text-white">|</span>
+            <span class="text-white">Copyright @2025</span>
+            <span class="text-white">|</span>
+            <span class="text-white">Build with Django & TailwindCSS</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

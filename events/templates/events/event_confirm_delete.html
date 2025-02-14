@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Delete Event{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold mb-6">Delete Event</h1>
+    
+    <p class="mb-4">Are you sure you want to delete the event "{{ event.name }}"?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">
+            Yes, Delete
+        </button>
+        <a href="{% url 'event_detail' event.id %}" class="ml-2 py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition duration-300">
+            Cancel
+        </a>
+    </form>
+</div>
+{% endblock %}

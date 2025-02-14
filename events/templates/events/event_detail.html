@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.name }}{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">{{ event.name }}</h1>
+        <div>
+            <a href="{% url 'event_update' event.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-300 mr-2">Edit</a>
+            <a href="{% url 'event_delete' event.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300">Delete</a>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Event Details</h2>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <p><strong>Time:</strong> {{ event.time }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <p><strong>Category:</strong> {{ event.category.name }}</p>
+        </div>
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Description</h2>
+            <p class="text-gray-700">{{ event.description }}</p>
+        </div>
+    </div>
+    
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold mb-2">Participants ({{ participants.count }})</h2>
+        {% if participants %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b text-left">Name</th>
+                            <th class="py-2 px-4 border-b text-left">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for participant in participants %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-2 px-4 border-b">{{ participant.name }}</td>
+                            <td class="py-2 px-4 border-b">{{ participant.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-600">No participants registered for this event.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

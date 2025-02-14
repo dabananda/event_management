@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Participants {% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Participants</h1>
+        <a href="{% url 'participant_create' %}" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300">Add New Participant</a>
+    </div>
+    
+    {% if participants %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="p-4 border-b text-left">Name</th>
+                        <th class="p-4 border-b text-left">Email</th>
+                        <th class="p-4 border-b text-left">Events Registered</th>
+                        <th class="p-4 border-b text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participant in participants %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-4 border-b">{{ participant.name }}</td>
+                        <td class="p-4 border-b">{{ participant.email }}</td>
+                        <td class="p-4 border-b">{{ participant.events.count }}</td>
+                        <td class="p-4 border-b">
+                            <a href="{% url 'participant_detail' participant.id %}" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-300 mr-2">View</a>
+                            <a href="{% url 'participant_update' participant.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-300 mr-2">Edit</a>
+                            <a href="{% url 'participant_delete' participant.id %}" class="bg-rose-500 text-white py-2 px-4 rounded hover:bg-rose-600 transition duration-300 mr-2">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-600">No participants found.</p>
+    {% endif %}
+</div>
+{% endblock %}

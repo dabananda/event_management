@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold">DASHBOARD</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 mb-10">
+        <a href="{% url 'dashboard' %}?show=all" class="bg-blue-100 p-4 rounded-lg shadow-lg">
+            <h2 class="mb-4 text-lg font-semibold text-blue-800">Total Events</h2>
+            <p class="text-3xl px-4 font-bold text-blue-600">{{ total_events }}</p>
+        </a>
+        <a href="{% url 'dashboard' %}?show=upcoming" class="bg-green-100 p-4 rounded-lg shadow-lg">
+            <h2 class="mb-4 text-lg font-semibold text-green-800">Upcoming Events</h2>
+            <p class="text-3xl px-4 font-bold text-green-600">{{ upcoming_events }}</p>
+        </a>
+        <a href="{% url 'dashboard' %}?show=past" class="bg-purple-100 p-4 rounded-lg shadow-lg">
+            <h2 class="mb-4 text-lg font-semibold text-purple-800">Past Events</h2>
+            <p class="text-3xl px-4 font-bold text-purple-600">{{ past_events }}</p>
+        </a>
+        <a href="{% url 'participant_list' %}" class="block shadow-lg">
+            <div class="bg-rose-100 rounded-lg shadow-md p-4">
+                <h2 class="mb-4 text-lg font-semibold text-rose-600">Total Participants</h2>
+                <p class="text-3xl px-4 font-bold text-rose-600">{{ total_participants }}</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-xl font-bold mb-4">
+            {% if show_type == 'today' %}
+                Today's Events
+            {% elif show_type == 'upcoming' %}
+                Upcoming Events
+            {% elif show_type == 'past' %}
+                Past Events
+            {% else %}
+                All Events
+            {% endif %}
+        </h2>
+        
+        {% if events %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="p-4 border-b text-left">Event Name</th>
+                            <th class="p-4 border-b text-left">Date</th>
+                            <th class="p-4 border-b text-left">Time</th>
+                            <th class="p-4 border-b text-left">Location</th>
+                            <th class="p-4 border-b text-left">Category</th>
+                            <th class="p-4 border-b text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 border-b">{{ event.name }}</td>
+                            <td class="p-4 border-b">{{ event.date }}</td>
+                            <td class="p-4 border-b">{{ event.time }}</td>
+                            <td class="p-4 border-b">{{ event.location }}</td>
+                            <td class="p-4 border-b">{{ event.category.name }}</td>
+                            <td class="p-4 border-b">
+                                <a href="{% url 'event_detail' event.id %}" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300 mr-2">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-600">No events found.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

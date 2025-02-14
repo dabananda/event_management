@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}{% if form.instance.id %}Edit{% else %}Create{% endif %} Participant{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{% if form.instance.id %}Edit{% else %}Create{% endif %} Participant</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-6">
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.name.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <p class="text-red-500 text-xs italic">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.events.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ form.events.label }}</label>
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for choice in form.events %}
+                        <div class="flex items-start">
+                            {{ choice.tag }}
+                            <label for="{{ choice.id_for_label }}" class="ml-2 text-sm text-gray-700">{{ choice.choice_label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if form.events.errors %}
+                    <p class="text-red-500 text-xs italic mt-2">{{ form.events.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="mt-6">
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300">
+                {% if form.instance.id %}Update{% else %}Create{% endif %} Participant
+            </button>
+            <a href="{% url 'participant_list' %}" class="ml-2 py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition duration-300">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

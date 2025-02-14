@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{% if form.instance.id %}Edit{% else %}Create{% endif %} Event - {% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-md p-6 w-11/12 mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">{% if form.instance.id %}Edit{% else %}Create{% endif %} Event</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-6">
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-6">
+            <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300">
+                {% if form.instance.id %}Update{% else %}Create{% endif %} Event
+            </button>
+            <a href="{% url 'event_list' %}" class="ml-2 py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition duration-300">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
