@@ -1,6 +1,6 @@
 {% extends "events/base.html" %} {% block body %}
 <div class="">
-  <p class="text-3xl text-center font-bold">Showing All Categories</p>
+  <p class="text-3xl text-center font-bold">Showing All Events</p>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-5">
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -10,13 +10,17 @@
       >
         <tr>
           <th scope="col" class="px-6 py-3">Id</th>
-          <th scope="col" class="px-6 py-3">Category Name</th>
-          <th scope="col" class="px-6 py-3">Category Description</th>
+          <th scope="col" class="px-6 py-3">Event Title</th>
+          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Date</th>
+          <th scope="col" class="px-6 py-3">Time</th>
+          <th scope="col" class="px-6 py-3">Location</th>
           <th scope="col" class="px-6 py-3">Action</th>
         </tr>
       </thead>
       <tbody>
-        {% for category in categories %}
+        {% for event in events %}
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
@@ -24,13 +28,17 @@
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
-            {{ category.id }}
+            {{ event.id }}
           </th>
-          <td class="px-6 py-4">{{ category.name }}</td>
-          <td class="px-6 py-4">{{ category.description }}</td>
+          <td class="px-6 py-4">{{ event.name }}</td>
+          <td class="px-6 py-4">{{ event.description }}</td>
+          <td class="px-6 py-4">{{ event.category }}</td>
+          <td class="px-6 py-4">{{ event.date }}</td>
+          <td class="px-6 py-4">{{ event.time }}</td>
+          <td class="px-6 py-4">{{ event.location }}</td>
           <td class="px-6 py-4 text-right flex gap-2">
             <a
-              href="{% url 'events:update_category' category.id %}"
+              href="{% url 'events:update_event' event.id %}"
               class="font-medium text-gray-600 dark:text-blue-500"
             >
               <svg
@@ -47,7 +55,7 @@
                 />
               </svg>
             </a>
-            <a href="{% url 'events:delete_category' category.id %}" class="font-medium text-red-500 dark:text-blue-500">
+            <a href="{% url 'events:delete_event' event.id %}" class="font-medium text-red-500 dark:text-blue-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
