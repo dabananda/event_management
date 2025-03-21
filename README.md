@@ -1,4 +1,4 @@
-# Online Food
+# Event Management System
 
 ## Run this project on your machine
 

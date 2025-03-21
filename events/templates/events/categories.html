@@ -1,0 +1,11 @@
+{% extends "events/base.html" %}
+{% block body %}
+<h1>All Categories</h1>
+<hr />
+<ul>
+  {% for category in categories %}
+  <li>{{category.name}}</li>
+  <p>{{category.description}}</p>
+  {% endfor %}
+</ul>
+{% endblock %}

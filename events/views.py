@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from events.models import Event, Category, Participant
+from events.forms import CategoryForm
 
 
 def index(request):
@@ -31,10 +32,22 @@ def create_event(request):
 
 
 def create_category(request):
+    form = CategoryForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('events:all_categories')
     context = {
-
+        'form': form,
     }
     return render(request, 'events/create_category.html', context)
+
+
+def all_categories(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'events/categories.html', context)
 
 
 def create_participant(request):
