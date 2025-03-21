@@ -13,36 +13,36 @@ class TailwindFormMixin:
     def apply_styled_widgets(self):
         """Apply Tailwind styles dynamically based on field types."""
         for field_name, field in self.fields.items():
-            if isinstance(field.widget, forms.TextInput):  # CharField
+            if isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'placeholder': f"Enter {field.label.lower()}",
                 })
-            elif isinstance(field.widget, forms.Textarea):  # TextField
+            elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'rows': 4,
                     'placeholder': f"Enter {field.label.lower()}",
                 })
-            elif isinstance(field.widget, forms.DateInput):  # DateField
+            elif isinstance(field.widget, forms.DateInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'type': 'date',
                 })
-            elif isinstance(field.widget, forms.TimeInput):  # TimeField
+            elif isinstance(field.widget, forms.TimeInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'type': 'time',
                 })
-            elif isinstance(field.widget, forms.Select):  # ForeignKey (dropdown)
+            elif isinstance(field.widget, forms.Select):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                 })
-            elif isinstance(field.widget, forms.CheckboxSelectMultiple):  # ManyToManyField
+            elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 field.widget.attrs.update({
-                    'class': "border border-gray-300 rounded p-2 w-full",
+                    'class': "border border-gray-300 rounded p-2",
                 })
-            elif isinstance(field.widget, forms.EmailInput):  # EmailField
+            elif isinstance(field.widget, forms.EmailInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'placeholder': f"Enter {field.label.lower()}",

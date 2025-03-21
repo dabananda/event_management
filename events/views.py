@@ -114,8 +114,46 @@ def delete_category(request, id):
     return render(request, 'events/delete_category.html', context)
 
 
-def create_participant(request):
-    context = {
+# Participant views
 
+def create_participant(request):
+    form = ParticipantForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('events:all_participants')
+    context = {
+        'form': form,
     }
-    return render(request, 'events/create_participant.html', context)
+    return render(request, 'events/participants_template/create_participant.html', context)
+
+
+def all_participants(request):
+    participants = Participant.objects.all()
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'events/participants_template/all_participants.html', context)
+
+
+def update_participant(request, id):
+    participant = Participant.objects.get(id=id)
+    form = ParticipantForm(request.POST or None, instance=participant)
+    if form.is_valid():
+        form.save()
+        return redirect('events:all_participants')
+    context = {
+        'participant': participant,
+        'form': form,
+    }
+    return render(request, 'events/participants_template/create_participant.html', context)
+
+
+def delete_participant(request, id):
+    participant = Participant.objects.get(id=id)
+    if request.method == 'POST':
+        participant.delete()
+        return redirect('events:all_participants')
+    context = {
+        'participant': participant,
+    }
+    return render(request, 'events/participants_template/delete_participant.html', context)

@@ -243,10 +243,10 @@
             </button>
             <ul id="dropdown-example-2" class="hidden py-2 space-y-2">
                   <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Participants</a>
+                     <a href="{% url 'events:all_participants' %}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Participants</a>
                   </li>
                   <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create Participant</a>
+                     <a href="{% url 'events:create_participant' %}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Create Participant</a>
                   </li>
             </ul>
          </li>

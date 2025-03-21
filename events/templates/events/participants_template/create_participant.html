@@ -1,0 +1,39 @@
+{% extends "events/base.html" %} {% block body %}
+<form method="POST" class="max-w-md mx-auto my-5">
+  {% csrf_token %}
+
+  <div class="mb-5">
+    <label
+      for="name"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >Participant name</label
+    >
+    {{ form.name }}
+  </div>
+
+  <div class="mb-5">
+    <label
+      for="description"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >Participant Email</label
+    >
+    {{ form.email }}
+  </div>
+
+  <div class="mb-5">
+    <label
+      for="description"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >Events</label
+    >
+    {{ form.events }}
+  </div>
+
+  <button
+    type="submit"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+  >
+    Save
+  </button>
+</form>
+{% endblock %}
