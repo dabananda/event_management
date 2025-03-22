@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from events.models import Event, Category, Participant
-from events.forms import CategoryForm, EventForm, ParticipantForm
+from django.db.models import Count
+from django.utils.timezone import now
+from .models import Participant, Event, Category
+from datetime import datetime
+from events.forms import EventForm, ParticipantForm, CategoryForm
 
 
 def index(request):
@@ -18,9 +21,72 @@ def index(request):
 
 
 def organizer_dashboard(request):
-    context = {
+    # Get filter type from query parameters
+    event_type = request.GET.get('type', 'today')
+    category_id = request.GET.get('category')
 
+    # Date range filters
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Basic counts
+    total_participants = Participant.objects.count()
+    total_events = Event.objects.count()
+    upcoming_events = Event.objects.filter(date__gte=now().date()).count()
+    past_events = Event.objects.filter(date__lt=now().date()).count()
+
+    # Calculate total participants across all events using aggregation
+    total_event_participants = Event.objects.annotate(
+        participant_count=Count('participants')
+    ).aggregate(total=Count('participants'))['total']
+
+    # Base query with optimized database access using select_related for category and prefetch_related for participants
+    base_query = Event.objects.select_related(
+        'category').prefetch_related('participants')
+
+    # Filter events based on the type parameter
+    if event_type == 'upcoming':
+        events = base_query.filter(
+            date__gte=now().date()).order_by('date', 'time')
+    elif event_type == 'past':
+        events = base_query.filter(
+            date__lt=now().date()).order_by('-date', 'time')
+    elif event_type == 'all':
+        events = base_query.all().order_by('date', 'time')
+    else:  # Default to today's events
+        events = base_query.filter(date=now().date()).order_by('time')
+
+    # Additional filtering by category if provided
+    if category_id:
+        events = events.filter(category_id=category_id)
+
+    # Date range filtering if provided
+    if start_date and end_date:
+        try:
+            start = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end = datetime.strptime(end_date, '%Y-%m-%d').date()
+            events = events.filter(date__range=[start, end])
+        except ValueError:
+            pass
+
+    # Get all categories for the filter dropdown
+    categories = Category.objects.all()
+
+    context = {
+        'total_participants': total_participants,
+        'total_events': total_events,
+        'upcoming_events': upcoming_events,
+        'past_events': past_events,
+        'todays_events': events if event_type == 'today' else base_query.filter(date=now().date()),
+        'events': events,
+        'current_type': event_type,
+        'categories': categories,
+        'selected_category': category_id,
+        'start_date': start_date,
+        'end_date': end_date,
+        'total_event_participants': total_event_participants,
     }
+
     return render(request, 'events/organizer_dashboard.html', context)
 
 

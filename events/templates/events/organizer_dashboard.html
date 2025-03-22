@@ -1,35 +1,207 @@
-{% extends "events/base.html" %} {% block body %}
+{% extends "events/base.html" %} 
+{% block body %}
 
 <!-- Dashboard Status Cards -->
-<div class="grid grid-cols-4 gap-4">
-   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
-         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Total number of participants</h5>
-      </a>
-   </div>
+<div class="grid md:grid-cols-4 gap-4">
+  <div
+    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
+  >
+    <div>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        Total participants
+      </h5>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        {{ total_participants }}
+      </h5>
+    </div>
+  </div>
 
-   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
-         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Total number of events</h5>
-      </a>
-   </div>
+  <div
+    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'all' %}ring-2 ring-blue-500{% endif %}"
+  >
+    <a href="{% url 'events:organizer_dashboard' %}?type=all">
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        Total events
+      </h5>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        {{ total_events }}
+      </h5>
+    </a>
+  </div>
 
-   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
-         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Number of upcoming events</h5>
-      </a>
-   </div>
+  <div
+    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'upcoming' %}ring-2 ring-blue-500{% endif %}"
+  >
+    <a href="{% url 'events:organizer_dashboard' %}?type=upcoming">
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        Upcoming events
+      </h5>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        {{ upcoming_events }}
+      </h5>
+    </a>
+  </div>
 
-   <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
-         <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Number of past events</h5>
-      </a>
-   </div>
+  <div
+    class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'past' %}ring-2 ring-blue-500{% endif %}"
+  >
+    <a href="{% url 'events:organizer_dashboard' %}?type=past">
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        Past events
+      </h5>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+        {{ past_events }}
+      </h5>
+    </a>
+  </div>
 </div>
 
-<!-- List -->
+<!-- Filters Section -->
+<div class="my-6 p-5 bg-gray-50 dark:bg-gray-700 rounded-lg">
+  <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white">Filter Events</h3>
+  
+  <form method="get" class="grid md:grid-cols-4 gap-4">
+    <!-- Keep the current event type when filtering -->
+    <input type="hidden" name="type" value="{{ current_type }}">
+    
+    <!-- Category Filter -->
+    <div>
+      <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+      <select id="category" name="category" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"i" %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <!-- Date Range Filter -->
+    <div>
+      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
+      <input type="date" id="start_date" name="start_date" value="{{ start_date }}" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+    </div>
+    
+    <div>
+      <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
+      <input type="date" id="end_date" name="end_date" value="{{ end_date }}" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+    </div>
+    
+    <div class="flex items-end">
+      <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Apply Filters</button>
+      <a href="{% url 'events:organizer_dashboard' %}?type={{ current_type }}" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600 mb-1">Reset</a>
+    </div>
+  </form>
+</div>
+
+<!-- Today's Events Section -->
+{% if todays_events %}
 <div class="my-4">
-
+  <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white">Today's Events</h3>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">Event Title</th>
+          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Date</th>
+          <th scope="col" class="px-6 py-3">Time</th>
+          <th scope="col" class="px-6 py-3">Location</th>
+          <th scope="col" class="px-6 py-3">Participants</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in todays_events %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="px-6 py-4">{{ event.name }}</td>
+          <td class="px-6 py-4">{{ event.description }}</td>
+          <td class="px-6 py-4">{{ event.category.name }}</td>
+          <td class="px-6 py-4">{{ event.date }}</td>
+          <td class="px-6 py-4">{{ event.time }}</td>
+          <td class="px-6 py-4">{{ event.location }}</td>
+          <td class="px-6 py-4">
+            {% for participant in event.participants.all %} 
+              {{ participant.name }}{% if not forloop.last %}, {% endif %} 
+            {% empty %}
+              <span class="text-gray-400">No participants</span>
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
+{% else %}
+<p class="text-lg font-semibold text-red-500 text-center">No events scheduled for today.</p>
+{% endif %}
+
+<!-- Dynamic Events List Based on Filters -->
+{% if events and current_type != 'today' %}
+<div class="my-6">
+  <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white">
+    {% if current_type == 'all' %}All Events{% elif current_type == 'upcoming' %}Upcoming Events{% elif current_type == 'past' %}Past Events{% endif %}
+    {% if selected_category %}
+      {% for category in categories %}
+        {% if category.id|stringformat:"i" == selected_category %} in {{ category.name }} Category{% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if start_date and end_date %} from {{ start_date }} to {{ end_date }}{% endif %}
+  </h3>
+  
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">Event Title</th>
+          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Date</th>
+          <th scope="col" class="px-6 py-3">Time</th>
+          <th scope="col" class="px-6 py-3">Location</th>
+          <th scope="col" class="px-6 py-3">Participants</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in events %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="px-6 py-4">{{ event.name }}</td>
+          <td class="px-6 py-4">{{ event.description }}</td>
+          <td class="px-6 py-4">{{ event.category.name }}</td>
+          <td class="px-6 py-4">{{ event.date }}</td>
+          <td class="px-6 py-4">{{ event.time }}</td>
+          <td class="px-6 py-4">{{ event.location }}</td>
+          <td class="px-6 py-4">
+            {% for participant in event.participants.all %} 
+              {{ participant.name }}{% if not forloop.last %}, {% endif %} 
+            {% empty %}
+              <span class="text-gray-400">No participants</span>
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% elif current_type != 'today' %}
+<p class="text-lg font-semibold text-yellow-500 p-4 text-center">No events found matching your filters.</p>
+{% endif %}
 
 {% endblock %}
