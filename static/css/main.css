@@ -1,0 +1,13 @@
+/* events:index */
+
+.hero-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/hero_section.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.presentation-section {
+    background-image: linear-gradient(rgba(0, 0, 30, 0.8), rgba(20, 20, 100, 0.8)), url('../images/presentasion.jpg');
+    background-size: cover;
+    background-position: center;
+}
