@@ -1,6 +1,6 @@
 {% extends "events/base.html" %} 
 {% block body %}
-
+<div class="w-10/12 p-4 mx-auto">
 <!-- Dashboard Status Cards -->
 <div class="grid md:grid-cols-4 gap-4">
   <div
@@ -203,5 +203,5 @@
 {% elif current_type != 'today' %}
 <p class="text-lg font-semibold text-yellow-500 p-4 text-center">No events found matching your filters.</p>
 {% endif %}
-
+</div>
 {% endblock %}

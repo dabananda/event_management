@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('organizer_dashboard/', views.organizer_dashboard,
          name='organizer_dashboard'),
+    path('search/', views.search_results, name='search_results'),
 
     # Event
     path('create_event/', views.create_event,

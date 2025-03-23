@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils.timezone import now
 from .models import Participant, Event, Category
 from datetime import datetime
@@ -7,7 +7,13 @@ from events.forms import EventForm, ParticipantForm, CategoryForm
 
 
 def index(request):
+    query = request.GET.get('q', '')
     events = Event.objects.all()
+
+    if query:
+        events = events.filter(Q(name__icontains=query)
+                               | Q(location__icontains=query))
+
     categories = Category.objects.all()
     participants = Participant.objects.all()
     upcoming_events = Event.objects.filter(date__gte=now().date())
@@ -20,36 +26,44 @@ def index(request):
         'participants': participants,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
+        'query': query,
     }
 
     return render(request, 'events/index.html', context)
 
 
+def search_results(request):
+    query = request.GET.get('q', '')
+    events = Event.objects.filter(Q(name__icontains=query) | Q(
+        location__icontains=query)) if query else []
+
+    context = {
+        'events': events,
+        'query': query,
+    }
+
+    return render(request, 'events/search_results.html', context)
+
+
 def organizer_dashboard(request):
-    # Get filter type from query parameters
     event_type = request.GET.get('type', 'today')
     category_id = request.GET.get('category')
 
-    # Date range filters
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
-    # Basic counts
     total_participants = Participant.objects.count()
     total_events = Event.objects.count()
     upcoming_events = Event.objects.filter(date__gte=now().date()).count()
     past_events = Event.objects.filter(date__lt=now().date()).count()
 
-    # Calculate total participants across all events using aggregation
     total_event_participants = Event.objects.annotate(
         participant_count=Count('participants')
     ).aggregate(total=Count('participants'))['total']
 
-    # Base query with optimized database access using select_related for category and prefetch_related for participants
     base_query = Event.objects.select_related(
         'category').prefetch_related('participants')
 
-    # Filter events based on the type parameter
     if event_type == 'upcoming':
         events = base_query.filter(
             date__gte=now().date()).order_by('date', 'time')
@@ -58,14 +72,12 @@ def organizer_dashboard(request):
             date__lt=now().date()).order_by('-date', 'time')
     elif event_type == 'all':
         events = base_query.all().order_by('date', 'time')
-    else:  # Default to today's events
+    else:
         events = base_query.filter(date=now().date()).order_by('time')
 
-    # Additional filtering by category if provided
     if category_id:
         events = events.filter(category_id=category_id)
 
-    # Date range filtering if provided
     if start_date and end_date:
         try:
             start = datetime.strptime(start_date, '%Y-%m-%d').date()
@@ -74,7 +86,6 @@ def organizer_dashboard(request):
         except ValueError:
             pass
 
-    # Get all categories for the filter dropdown
     categories = Category.objects.all()
 
     context = {

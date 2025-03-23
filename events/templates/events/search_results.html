@@ -1,0 +1,29 @@
+{% extends "events/base.html" %} 
+
+{% block body %}
+<div class="container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-6">Search Results for "{{ query }}"</h2>
+
+    {% if events %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for event in events %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold">{{ event.name }}</h3>
+                    <p class="text-gray-500">{{ event.location }}</p>
+                    <p class="text-gray-400 text-sm">{{ event.date }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500 text-center mt-4">No events found matching your search.</p>
+    {% endif %}
+    
+    <div class="text-center mt-6">
+        <a href="{% url 'events:index' %}" class="bg-gray-500 text-white px-4 py-2 rounded-md">
+            Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

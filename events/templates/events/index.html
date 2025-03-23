@@ -155,23 +155,23 @@
     <div class="container w-9/12 mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-12">Upcoming conferences</h2>
       <div class="space-y-6">
-         {% for event in upcoming_events %}
+        {% for event in upcoming_events %}
         <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
+          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
+        >
           <div
-            class="bg-[#9810fa] text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center">
+            class="bg-[#9810fa] text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
+          >
             <span class="text-3xl font-bold">{{event.date|date:"d"}}</span>
             <span class="uppercase">{{event.date|date:"M"}}</span>
             <span class="text-sm">{{event.date|date:"Y"}}</span>
           </div>
           <div class="p-4 md:p-6 flex-grow">
-            <h3 class="text-xl font-semibold">
-              {{event.name}}
-            </h3>
-            <p class="text-sm text-gray-600 mb-2">{{event.location}} ({{event.time}})</p>
-            <p class="text-gray-500">
-              {{event.description}}
+            <h3 class="text-xl font-semibold">{{event.name}}</h3>
+            <p class="text-sm text-gray-600 mb-2">
+              {{event.location}} ({{event.time}})
             </p>
+            <p class="text-gray-500">{{event.description}}</p>
           </div>
           <div class="p-4 md:p-6 flex items-center">
             <a
@@ -242,7 +242,9 @@
               class="absolute bottom-0 left-0 bg-cyan-500 text-white p-2 text-center"
             >
               <span class="text-xl font-bold">{{event.date|date:"d"}}</span>
-              <span class="block uppercase text-xs">{{event.date|date:"M"}}</span>
+              <span class="block uppercase text-xs"
+                >{{event.date|date:"M"}}</span
+              >
               <span class="block text-xs">{{event.date|date:"Y"}}</span>
             </div>
           </div>
@@ -264,7 +266,7 @@
       <h2 class="text-3xl font-bold text-center mb-12">Browse by category</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <!-- Category -->
-         {% for category in categories %}
+        {% for category in categories %}
         <div class="flex flex-col items-center mb-5">
           <div class="bg-purple-600 p-6 rounded-lg mb-3">
             <svg
@@ -282,7 +284,9 @@
               />
             </svg>
           </div>
-          <span class="text-sm font-semibold uppercase text-center">{{ category.name }}</span>
+          <span class="text-sm font-semibold uppercase text-center"
+            >{{ category.name }}</span
+          >
         </div>
         {% endfor %}
       </div>
