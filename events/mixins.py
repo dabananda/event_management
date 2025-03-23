@@ -13,16 +13,18 @@ class TailwindFormMixin:
     def apply_styled_widgets(self):
         """Apply Tailwind styles dynamically based on field types."""
         for field_name, field in self.fields.items():
+            placeholder_text = f"Enter {field.label.lower()}" if field.label else f"Enter {field_name.replace('_', ' ')}"
+
             if isinstance(field.widget, forms.TextInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
+                    'placeholder': placeholder_text,
                 })
             elif isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({
                     'class': self.default_classes,
                     'rows': 4,
-                    'placeholder': f"Enter {field.label.lower()}",
+                    'placeholder': placeholder_text,
                 })
             elif isinstance(field.widget, forms.DateInput):
                 field.widget.attrs.update({
@@ -45,5 +47,10 @@ class TailwindFormMixin:
             elif isinstance(field.widget, forms.EmailInput):
                 field.widget.attrs.update({
                     'class': self.default_classes,
-                    'placeholder': f"Enter {field.label.lower()}",
+                    'placeholder': placeholder_text,
+                })
+            elif isinstance(field.widget, forms.PasswordInput):
+                field.widget.attrs.update({
+                    'class': self.default_classes,
+                    'placeholder': placeholder_text,
                 })
