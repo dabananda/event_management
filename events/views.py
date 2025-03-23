@@ -10,11 +10,16 @@ def index(request):
     events = Event.objects.all()
     categories = Category.objects.all()
     participants = Participant.objects.all()
+    upcoming_events = Event.objects.filter(date__gte=now().date())
+    past_events = Event.objects.filter(
+        date__lt=now().date()).order_by('-date')[:6]
 
     context = {
         'events': events,
         'categories': categories,
         'participants': participants,
+        'upcoming_events': upcoming_events,
+        'past_events': past_events,
     }
 
     return render(request, 'events/index.html', context)

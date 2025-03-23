@@ -150,31 +150,27 @@
     </div>
   </section>
 
-  <!-- Upcoming conferences section -->
+  <!-- Upcoming Events -->
   <section class="py-12 bg-gray-50">
     <div class="container w-9/12 mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-12">Upcoming conferences</h2>
-
       <div class="space-y-6">
-        <!-- Conference 1 -->
+         {% for event in upcoming_events %}
         <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
-        >
+          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
           <div
-            class="bg-cyan-500 text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
-          >
-            <span class="text-3xl font-bold">06</span>
-            <span class="uppercase">FEB</span>
-            <span class="text-sm">2016</span>
+            class="bg-[#9810fa] text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center">
+            <span class="text-3xl font-bold">{{event.date|date:"d"}}</span>
+            <span class="uppercase">{{event.date|date:"M"}}</span>
+            <span class="text-sm">{{event.date|date:"Y"}}</span>
           </div>
           <div class="p-4 md:p-6 flex-grow">
             <h3 class="text-xl font-semibold">
-              Global Trial Placement Strategies
+              {{event.name}}
             </h3>
-            <p class="text-sm text-gray-600 mb-2">VIENNA (2015)</p>
+            <p class="text-sm text-gray-600 mb-2">{{event.location}} ({{event.time}})</p>
             <p class="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {{event.description}}
             </p>
           </div>
           <div class="p-4 md:p-6 flex items-center">
@@ -200,201 +196,21 @@
             </a>
           </div>
         </div>
-
-        <!-- Conference 2 -->
-        <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div
-            class="bg-red-500 text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
-          >
-            <span class="text-3xl font-bold">06</span>
-            <span class="uppercase">FEB</span>
-            <span class="text-sm">2016</span>
-          </div>
-          <div class="p-4 md:p-6 flex-grow">
-            <h3 class="text-xl font-semibold">
-              Global Trial Placement Strategies
-            </h3>
-            <p class="text-sm text-gray-600 mb-2">VIENNA (2015)</p>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div class="p-4 md:p-6 flex items-center">
-            <a
-              href="#"
-              class="text-orange-500 inline-flex items-center hover:underline"
-            >
-              Learn More
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Conference 3 -->
-        <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div
-            class="bg-green-500 text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
-          >
-            <span class="text-3xl font-bold">06</span>
-            <span class="uppercase">FEB</span>
-            <span class="text-sm">2016</span>
-          </div>
-          <div class="p-4 md:p-6 flex-grow">
-            <h3 class="text-xl font-semibold">
-              Global Trial Placement Strategies
-            </h3>
-            <p class="text-sm text-gray-600 mb-2">VIENNA (2015)</p>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div class="p-4 md:p-6 flex items-center">
-            <a
-              href="#"
-              class="text-orange-500 inline-flex items-center hover:underline"
-            >
-              Learn More
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Conference 4 -->
-        <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div
-            class="bg-yellow-500 text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
-          >
-            <span class="text-3xl font-bold">06</span>
-            <span class="uppercase">FEB</span>
-            <span class="text-sm">2016</span>
-          </div>
-          <div class="p-4 md:p-6 flex-grow">
-            <h3 class="text-xl font-semibold">
-              Global Trial Placement Strategies
-            </h3>
-            <p class="text-sm text-gray-600 mb-2">VIENNA (2015)</p>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div class="p-4 md:p-6 flex items-center">
-            <a
-              href="#"
-              class="text-orange-500 inline-flex items-center hover:underline"
-            >
-              Learn More
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Conference 5 -->
-        <div
-          class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          <div
-            class="bg-cyan-500 text-white p-4 md:p-6 text-center md:w-24 flex flex-col justify-center"
-          >
-            <span class="text-3xl font-bold">06</span>
-            <span class="uppercase">FEB</span>
-            <span class="text-sm">2016</span>
-          </div>
-          <div class="p-4 md:p-6 flex-grow">
-            <h3 class="text-xl font-semibold">
-              Global Trial Placement Strategies
-            </h3>
-            <p class="text-sm text-gray-600 mb-2">VIENNA (2015)</p>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div class="p-4 md:p-6 flex items-center">
-            <a
-              href="#"
-              class="text-orange-500 inline-flex items-center hover:underline"
-            >
-              Learn More
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 ml-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
 
-  <!-- Presentations section -->
+  <!-- Past Events -->
   <section class="presentation-section py-16 text-white">
     <div class="container w-9/12 mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">Latest Presentations</h2>
-
+      <h2 class="text-3xl font-bold text-center mb-12">Past Events</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Presentation 1 -->
+        {% for event in past_events %}
         <div class="bg-white bg-opacity-10 rounded-lg overflow-hidden">
           <div class="relative">
             <img
-              src="../../../static/images/presentation_person (1).jpg"
+              src="../../../static/images/past_events_ (3).jpg"
               alt="Presentation"
               class="w-full h-48 object-cover"
             />
@@ -425,126 +241,31 @@
             <div
               class="absolute bottom-0 left-0 bg-cyan-500 text-white p-2 text-center"
             >
-              <span class="text-xl font-bold">06</span>
-              <span class="block uppercase text-xs">FEB</span>
-              <span class="block text-xs">2018</span>
+              <span class="text-xl font-bold">{{event.date|date:"d"}}</span>
+              <span class="block uppercase text-xs">{{event.date|date:"M"}}</span>
+              <span class="block text-xs">{{event.date|date:"Y"}}</span>
             </div>
           </div>
           <div class="p-4">
             <div class="text-xs font-semibold text-cyan-400 mb-2">
-              TECHNOLOGY
+              {{ event.category }}
             </div>
-            <h3 class="font-bold mb-2 text-gray-500">SAPinsider Financials 2018</h3>
+            <h3 class="font-bold mb-2 text-gray-500">{{ event.name }}</h3>
           </div>
         </div>
-
-        <!-- Presentation 2 -->
-        <div class="bg-white bg-opacity-10 rounded-lg overflow-hidden">
-          <div class="relative">
-            <img
-              src="../../../static/images/presentation_person (2).jpg"
-              alt="Presentation"
-              class="w-full h-48 object-cover"
-            />
-            <div class="absolute inset-0 flex items-center justify-center">
-              <button class="bg-yellow-500 rounded-full p-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="absolute bottom-0 left-0 bg-green-500 text-white p-2 text-center"
-            >
-              <span class="text-xl font-bold">06</span>
-              <span class="block uppercase text-xs">FEB</span>
-              <span class="block text-xs">2018</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <div class="text-xs font-semibold text-green-400 mb-2">
-              TECHNOLOGY
-            </div>
-            <h3 class="font-bold mb-2 text-gray-500">SAPinsider Financials 2018</h3>
-          </div>
-        </div>
-
-        <!-- Presentation 3 -->
-        <div class="bg-white bg-opacity-10 rounded-lg overflow-hidden">
-          <div class="relative">
-            <img
-              src="../../../static/images/presentation_person (3).jpg"
-              alt="Presentation"
-              class="w-full h-48 object-cover"
-            />
-            <div class="absolute inset-0 flex items-center justify-center">
-              <button class="bg-yellow-500 rounded-full p-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div
-              class="absolute bottom-0 left-0 bg-purple-500 text-white p-2 text-center"
-            >
-              <span class="text-xl font-bold">06</span>
-              <span class="block uppercase text-xs">FEB</span>
-              <span class="block text-xs">2018</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <div class="text-xs font-semibold text-purple-400 mb-2">
-              TECHNOLOGY
-            </div>
-            <h3 class="font-bold mb-2 text-gray-500">SAPinsider Financials 2018</h3>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
 
-  <!-- Categories section -->
+  <!-- Categories -->
   <section class="py-16 bg-gray-50">
     <div class="container w-9/12 mx-auto px-4">
       <h2 class="text-3xl font-bold text-center mb-12">Browse by category</h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <!-- Category 1 -->
-        <div class="flex flex-col items-center">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Category -->
+         {% for category in categories %}
+        <div class="flex flex-col items-center mb-5">
           <div class="bg-purple-600 p-6 rounded-lg mb-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -561,113 +282,9 @@
               />
             </svg>
           </div>
-          <span class="text-sm font-semibold uppercase">Blockchain</span>
+          <span class="text-sm font-semibold uppercase text-center">{{ category.name }}</span>
         </div>
-
-        <!-- Category 2 -->
-        <div class="flex flex-col items-center">
-          <div class="bg-yellow-500 p-6 rounded-lg mb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-              />
-            </svg>
-          </div>
-          <span class="text-sm font-semibold uppercase">Innovation</span>
-        </div>
-
-        <!-- Category 3 -->
-        <div class="flex flex-col items-center">
-          <div class="bg-green-500 p-6 rounded-lg mb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-          </div>
-          <span class="text-sm font-semibold uppercase">Leadership</span>
-        </div>
-
-        <!-- Category 4 -->
-        <div class="flex flex-col items-center">
-          <div class="bg-cyan-500 p-6 rounded-lg mb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <span class="text-sm font-semibold uppercase">Funding</span>
-        </div>
-
-        <!-- Category 5 -->
-        <div class="flex flex-col items-center">
-          <div class="bg-pink-500 p-6 rounded-lg mb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <span class="text-sm font-semibold uppercase">Productivity</span>
-        </div>
-
-        <!-- Category 6 -->
-        <div class="flex flex-col items-center">
-          <div class="bg-indigo-500 p-6 rounded-lg mb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-12 w-12 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
-            </svg>
-          </div>
-          <span class="text-sm font-semibold uppercase">Recruitment</span>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
