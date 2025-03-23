@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.db.models import Count, Q
 from django.utils.timezone import now
-from .models import Participant, Event, Category
+from .models import Event, Category
 from datetime import datetime
-from events.forms import EventForm, ParticipantForm, CategoryForm
+from events.forms import EventForm, CategoryForm
 
 
 def index(request):
@@ -15,7 +15,7 @@ def index(request):
                                | Q(location__icontains=query))
 
     categories = Category.objects.all()
-    participants = Participant.objects.all()
+    # participants = Participant.objects.all()
     upcoming_events = Event.objects.filter(date__gte=now().date())
     past_events = Event.objects.filter(
         date__lt=now().date()).order_by('-date')[:6]
@@ -23,7 +23,7 @@ def index(request):
     context = {
         'events': events,
         'categories': categories,
-        'participants': participants,
+        # 'participants': participants,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
         'query': query,
@@ -52,7 +52,7 @@ def organizer_dashboard(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
-    total_participants = Participant.objects.count()
+    # total_participants = Participant.objects.count()
     total_events = Event.objects.count()
     upcoming_events = Event.objects.filter(date__gte=now().date()).count()
     past_events = Event.objects.filter(date__lt=now().date()).count()
@@ -89,7 +89,7 @@ def organizer_dashboard(request):
     categories = Category.objects.all()
 
     context = {
-        'total_participants': total_participants,
+        # 'total_participants': total_participants,
         'total_events': total_events,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
@@ -216,46 +216,46 @@ def events_by_category(request, id):
     return render(request, 'events/events_by_category.html', context)
 
 
-# Participant views
+# # Participant views
 
-def create_participant(request):
-    form = ParticipantForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('events:all_participants')
-    context = {
-        'form': form,
-    }
-    return render(request, 'events/participants_template/create_participant.html', context)
-
-
-def all_participants(request):
-    participants = Participant.objects.all()
-    context = {
-        'participants': participants,
-    }
-    return render(request, 'events/participants_template/all_participants.html', context)
+# def create_participant(request):
+#     form = ParticipantForm(request.POST or None)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('events:all_participants')
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'events/participants_template/create_participant.html', context)
 
 
-def update_participant(request, id):
-    participant = Participant.objects.get(id=id)
-    form = ParticipantForm(request.POST or None, instance=participant)
-    if form.is_valid():
-        form.save()
-        return redirect('events:all_participants')
-    context = {
-        'participant': participant,
-        'form': form,
-    }
-    return render(request, 'events/participants_template/create_participant.html', context)
+# def all_participants(request):
+#     # participants = Participant.objects.all()
+#     context = {
+#         'participants': participants,
+#     }
+#     return render(request, 'events/participants_template/all_participants.html', context)
 
 
-def delete_participant(request, id):
-    participant = Participant.objects.get(id=id)
-    if request.method == 'POST':
-        participant.delete()
-        return redirect('events:all_participants')
-    context = {
-        'participant': participant,
-    }
-    return render(request, 'events/participants_template/delete_participant.html', context)
+# def update_participant(request, id):
+#     # participant = Participant.objects.get(id=id)
+#     form = ParticipantForm(request.POST or None, instance=participant)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('events:all_participants')
+#     context = {
+#         # 'participant': participant,
+#         'form': form,
+#     }
+#     return render(request, 'events/participants_template/create_participant.html', context)
+
+
+# def delete_participant(request, id):
+#     # participant = Participant.objects.get(id=id)
+#     if request.method == 'POST':
+#         participant.delete()
+#         return redirect('events:all_participants')
+#     context = {
+#         'participant': participant,
+#     }
+#     return render(request, 'events/participants_template/delete_participant.html', context)

@@ -1,4 +1,4 @@
-from events.models import Category, Event, Participant
+from events.models import Category, Event
 from django import forms
 from events.models import Category
 from events.mixins import TailwindFormMixin
@@ -25,10 +25,10 @@ class EventForm(TailwindFormMixin, forms.ModelForm):
         }
 
 
-class ParticipantForm(TailwindFormMixin, forms.ModelForm):
-    class Meta:
-        model = Participant
-        fields = ['name', 'email', 'events']
-        widgets = {
-            'events': forms.CheckboxSelectMultiple(),
-        }
+# class ParticipantForm(TailwindFormMixin, forms.ModelForm):
+#     class Meta:
+#         model = Participant
+#         fields = ['name', 'email', 'events']
+#         widgets = {
+#             'events': forms.CheckboxSelectMultiple(),
+#         }

@@ -30,13 +30,13 @@ urlpatterns = [
     path('category/<int:id>/',
          views.events_by_category, name='events_by_category'),
 
-    # Participant
-    path('create_participant/', views.create_participant,
-         name='create_participant'),
-    path('all_participants/', views.all_participants,
-         name='all_participants'),
-    path('update_participant/<int:id>/', views.update_participant,
-         name='update_participant'),
-    path('delete_participant/<int:id>', views.delete_participant,
-         name='delete_participant'),
+#     # Participant
+#     path('create_participant/', views.create_participant,
+#          name='create_participant'),
+#     path('all_participants/', views.all_participants,
+#          name='all_participants'),
+#     path('update_participant/<int:id>/', views.update_participant,
+#          name='update_participant'),
+#     path('delete_participant/<int:id>', views.delete_participant,
+#          name='delete_participant'),
 ]
