@@ -151,6 +151,14 @@ def delete_event(request, id):
     return render(request, 'events/events_template/delete_event.html', context)
 
 
+def event_detail(request, id):
+    event = Event.objects.get(id=id)
+    context = {
+        'event': event,
+    }
+    return render(request, 'events/event_detail.html', context)
+
+
 # Category views
 
 def create_category(request):
@@ -194,6 +202,18 @@ def delete_category(request, id):
         'category': category,
     }
     return render(request, 'events/delete_category.html', context)
+
+
+def events_by_category(request, id):
+    category = Category.objects.get(id=id)
+    events = Event.objects.filter(category=category)
+
+    context = {
+        'category': category,
+        'events': events,
+    }
+
+    return render(request, 'events/events_by_category.html', context)
 
 
 # Participant views

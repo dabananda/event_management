@@ -16,6 +16,7 @@ urlpatterns = [
          name='all_events'),
     path('update_event/<int:id>/', views.update_event, name='update_event'),
     path('delete_event/<int:id>/', views.delete_event, name='delete_event'),
+    path('event/<int:id>/', views.event_detail, name='event_detail'),
 
     # Category
     path('create_category/', views.create_category,
@@ -26,6 +27,8 @@ urlpatterns = [
          name='update_category'),
     path('delete_category/<int:id>', views.delete_category,
          name='delete_category'),
+    path('category/<int:id>/',
+         views.events_by_category, name='events_by_category'),
 
     # Participant
     path('create_participant/', views.create_participant,

@@ -1,0 +1,29 @@
+{% extends "events/base.html" %}
+
+{% block body %}
+<div class="container w-10/12 mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6">Events in "{{ category.name }}" Category</h1>
+    
+    {% if events %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for event in events %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">{{ event.name }}</h3>
+                    <p class="text-gray-600 text-sm">{{ event.date }}</p>
+                    <p class="text-gray-600 my-3">{{ event.location }}</p>
+                    <p class="text-gray-500">{{ event.description }}</p>
+                </div>
+                <div class="p-4">
+                    <a href="{% url 'events:event_detail' event.id %}" class="text-blue-500 hover:underline">
+                        View Event Details
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">No events available in this category.</p>
+    {% endif %}
+</div>
+{% endblock %}

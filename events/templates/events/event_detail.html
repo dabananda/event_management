@@ -1,0 +1,39 @@
+{% extends "events/base.html" %} 
+
+{% block body %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="../../../static/images/past_events_ (2).jpg" alt="{{ event.name }}" class="w-full h-64 object-cover">
+        
+        <div class="p-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ event.name }}</h2>
+            <p class="text-gray-600 mb-4">{{ event.description }}</p>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div><strong class="text-gray-700">Date:</strong> {{ event.date }}</div>
+                <div><strong class="text-gray-700">Time:</strong> {{ event.time }}</div>
+                <div><strong class="text-gray-700">Location:</strong> {{ event.location }}</div>
+                <div><strong class="text-gray-700">Category:</strong> {{ event.category.name }}</div>
+            </div>
+
+            <!-- Display Participants -->
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold text-gray-800">Participants</h3>
+                {% if event.participants %}
+                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                        {% for participant in event.participants.all %}
+                            <li>{{ participant.name }} ({{ participant.email }})</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-gray-500 mt-2">No participants have registered yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="mt-6">
+                <a href="{% url 'events:index' %}" class="bg-blue-500 text-white px-4 py-2 rounded-md">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
