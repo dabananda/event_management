@@ -1,6 +1,6 @@
 {% extends "events/base.html" %}
 {% block body %}
-<form method="POST" class="max-w-md mx-auto my-5">
+<form method="POST" class="max-w-md mx-auto my-5" enctype="multipart/form-data">
   {% csrf_token %}
 
   <div class="mb-5">
@@ -51,6 +51,14 @@
       >Event Category</label
     >
     {{ form.category }}
+  </div>
+  <div class="mb-5">
+    <label
+      for="image"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+      >Upload Image</label
+    >
+    {{ form.image }}
   </div>
 
   <button

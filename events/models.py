@@ -20,6 +20,8 @@ class Event(models.Model):
         Category, on_delete=models.CASCADE, related_name='events')
     rsvps = models.ManyToManyField(
         User, related_name="rsvp_events", blank=True)
+    image = models.ImageField(
+        upload_to='event_images/', default='default_event.jpg', blank=True, null=True)
 
     def __str__(self):
         return self.name

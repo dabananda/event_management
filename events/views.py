@@ -118,7 +118,7 @@ def organizer_dashboard(request):
 @login_required
 @permission_required("events.add_event", login_url="no_permission")
 def create_event(request):
-    form = EventForm(request.POST or None)
+    form = EventForm(request.POST or None, request.FILES)
     if form.is_valid():
         form.save()
         return redirect('events:all_events')
@@ -140,7 +140,7 @@ def all_events(request):
 @permission_required("events.change_event", login_url="no_permission")
 def update_event(request, id):
     event = Event.objects.get(id=id)
-    form = EventForm(request.POST or None, instance=event)
+    form = EventForm(request.POST or None, request.FILES or None, instance=event)
     if form.is_valid():
         form.save()
         return redirect('events:all_events')

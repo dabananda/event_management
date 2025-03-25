@@ -18,17 +18,8 @@ class EventForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'description', 'date',
-                  'time', 'location', 'category']
+                  'time', 'location', 'category', 'image']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
         }
-
-
-# class ParticipantForm(TailwindFormMixin, forms.ModelForm):
-#     class Meta:
-#         model = Participant
-#         fields = ['name', 'email', 'events']
-#         widgets = {
-#             'events': forms.CheckboxSelectMultiple(),
-#         }

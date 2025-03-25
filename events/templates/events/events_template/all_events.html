@@ -1,5 +1,5 @@
 {% extends "events/base.html" %} {% block body %}
-<div class="">
+<div class="w-10/12 mx-auto p-4">
   <p class="text-3xl text-center font-bold">Showing All Events</p>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg my-5">
     <table
@@ -30,6 +30,21 @@
           >
             {{ event.id }}
           </th>
+          <td class="px-6 py-4">
+            {% if event.image %}
+            <img
+              src="{{ event.image.url }}"
+              alt="{{ event.name }}"
+              width="150px"
+            />
+            {% else %}
+            <img
+              src="{{ MEDIA_URL }}default_event.jpg"
+              alt="Default Event"
+              width="150px"
+            />
+            {% endif %}
+          </td>
           <td class="px-6 py-4">{{ event.name }}</td>
           <td class="px-6 py-4">{{ event.description }}</td>
           <td class="px-6 py-4">{{ event.category }}</td>
@@ -55,7 +70,10 @@
                 />
               </svg>
             </a>
-            <a href="{% url 'events:delete_event' event.id %}" class="font-medium text-red-500 dark:text-blue-500">
+            <a
+              href="{% url 'events:delete_event' event.id %}"
+              class="font-medium text-red-500 dark:text-blue-500"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
