@@ -4,6 +4,7 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from events import views as event_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,9 @@ urlpatterns = [
     path('admin_dashboard/group_list/',
          user_views.group_list, name='group_list'),
     path('no_permission', user_views.no_permission, name='no_permission'),
+
+    # Dashboard redirecting url
+    path('dashboard/', event_views.dashboard, name="dashboard")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

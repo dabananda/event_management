@@ -8,10 +8,15 @@ from django.contrib.auth.decorators import login_required, user_passes_test, per
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from users.views import is_admin
 
 
 def is_organizer(user):
     return user.groups.filter(name="Organizer").exists()
+
+
+def is_participant(user):
+    return user.groups.filter(name="Participant").exists()
 
 
 def index(request):
@@ -140,7 +145,8 @@ def all_events(request):
 @permission_required("events.change_event", login_url="no_permission")
 def update_event(request, id):
     event = Event.objects.get(id=id)
-    form = EventForm(request.POST or None, request.FILES or None, instance=event)
+    form = EventForm(request.POST or None,
+                     request.FILES or None, instance=event)
     if form.is_valid():
         form.save()
         return redirect('events:all_events')
@@ -271,3 +277,15 @@ def participant_dashboard(request):
         'rsvp_events': rsvp_events,
     }
     return render(request, 'users/participant_dashboard.html', context)
+
+
+@login_required
+def dashboard(request):
+    if is_admin(request.user):
+        return redirect("admin_dashboard")
+    elif is_organizer(request.user):
+        return redirect("organizer_dashboard")
+    elif is_participant(request.user):
+        return redirect("participant_dashboard")
+
+    return redirect("participant")
