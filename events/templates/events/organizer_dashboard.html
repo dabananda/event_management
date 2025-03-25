@@ -15,7 +15,7 @@
       <h5
         class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
-        {{ total_participants }}
+        {% comment %} {{ total_participants }} {% endcomment %}
       </h5>
     </div>
   </div>
@@ -136,10 +136,10 @@
           <td class="px-6 py-4">{{ event.time }}</td>
           <td class="px-6 py-4">{{ event.location }}</td>
           <td class="px-6 py-4">
-            {% for participant in event.participants.all %} 
-              {{ participant.name }}{% if not forloop.last %}, {% endif %} 
+            {% for rsvp in event.rsvps.all %} 
+              {{ rsvp.name }}{% if not forloop.last %}, {% endif %} 
             {% empty %}
-              <span class="text-gray-400">No participants</span>
+              <span class="text-gray-400">No rsvps</span>
             {% endfor %}
           </td>
         </tr>
@@ -156,7 +156,13 @@
 {% if events and current_type != 'today' %}
 <div class="my-6">
   <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white">
-    {% if current_type == 'all' %}All Events{% elif current_type == 'upcoming' %}Upcoming Events{% elif current_type == 'past' %}Past Events{% endif %}
+    {% if current_type == 'all' %}
+      All Events
+    {% elif current_type == 'upcoming' %}
+      Upcoming Events
+    {% elif current_type == 'past' %}
+      Past Events
+    {% endif %}
     {% if selected_category %}
       {% for category in categories %}
         {% if category.id|stringformat:"i" == selected_category %} in {{ category.name }} Category{% endif %}
@@ -188,10 +194,10 @@
           <td class="px-6 py-4">{{ event.time }}</td>
           <td class="px-6 py-4">{{ event.location }}</td>
           <td class="px-6 py-4">
-            {% for participant in event.participants.all %} 
-              {{ participant.name }}{% if not forloop.last %}, {% endif %} 
+            {% for rsvp in event.rsvps.all %} 
+              {{ rsvp.name }}{% if not forloop.last %}, {% endif %} 
             {% empty %}
-              <span class="text-gray-400">No participants</span>
+              <span class="text-gray-400">No rsvps</span>
             {% endfor %}
           </td>
         </tr>
@@ -200,8 +206,12 @@
     </table>
   </div>
 </div>
+
 {% elif current_type != 'today' %}
-<p class="text-lg font-semibold text-yellow-500 p-4 text-center">No events found matching your filters.</p>
+<p class="text-lg font-semibold text-yellow-500 p-4 text-center">
+  No events found matching your filters.</p>
 {% endif %}
+
 </div>
+
 {% endblock %}

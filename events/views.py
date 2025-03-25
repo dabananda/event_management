@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Q
 from django.utils.timezone import now
 from .models import Event, Category
 from datetime import datetime
 from events.forms import EventForm, CategoryForm
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def is_organizer(user):
@@ -64,11 +67,11 @@ def organizer_dashboard(request):
     past_events = Event.objects.filter(date__lt=now().date()).count()
 
     total_event_participants = Event.objects.annotate(
-        participant_count=Count('participants')
-    ).aggregate(total=Count('participants'))['total']
+        participant_count=Count('rsvps')
+    ).aggregate(total=Count('rsvps'))['total']
 
     base_query = Event.objects.select_related(
-        'category').prefetch_related('participants')
+        'category').prefetch_related('rsvps')
 
     if event_type == 'upcoming':
         events = base_query.filter(
@@ -95,7 +98,6 @@ def organizer_dashboard(request):
     categories = Category.objects.all()
 
     context = {
-        # 'total_participants': total_participants,
         'total_events': total_events,
         'upcoming_events': upcoming_events,
         'past_events': past_events,
@@ -232,46 +234,40 @@ def events_by_category(request, id):
     return render(request, 'events/events_by_category.html', context)
 
 
-# # Participant views
+# RSVP
 
-# def create_participant(request):
-#     form = ParticipantForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('events:all_participants')
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'events/participants_template/create_participant.html', context)
+def send_rsvp_confirmation(user, event):
+    subject = f"RSVP Confirmation for {event.name}"
+    message = f"""
+    Hello {user.username},
 
+    You have successfully RSVPd for {event.name} on {event.date} at {event.time}.
+    Location: {event.location}
 
-# def all_participants(request):
-#     # participants = Participant.objects.all()
-#     context = {
-#         'participants': participants,
-#     }
-#     return render(request, 'events/participants_template/all_participants.html', context)
+    Thank you!
+    """
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
 
 
-# def update_participant(request, id):
-#     # participant = Participant.objects.get(id=id)
-#     form = ParticipantForm(request.POST or None, instance=participant)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('events:all_participants')
-#     context = {
-#         # 'participant': participant,
-#         'form': form,
-#     }
-#     return render(request, 'events/participants_template/create_participant.html', context)
+@login_required
+def rsvp_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+
+    if event.rsvps.filter(id=request.user.id).exists():
+        messages.error(request, "You have already RSVPd for this event.")
+    else:
+        event.rsvps.add(request.user)
+        send_rsvp_confirmation(request.user, event)
+        messages.success(
+            request, f"You have successfully RSVPd for {event.name}!")
+
+    return redirect('events:event_detail', id=event.id)
 
 
-# def delete_participant(request, id):
-#     # participant = Participant.objects.get(id=id)
-#     if request.method == 'POST':
-#         participant.delete()
-#         return redirect('events:all_participants')
-#     context = {
-#         'participant': participant,
-#     }
-#     return render(request, 'events/participants_template/delete_participant.html', context)
+@login_required
+def participant_dashboard(request):
+    rsvp_events = request.user.rsvp_events.all()
+    context = {
+        'rsvp_events': rsvp_events,
+    }
+    return render(request, 'users/participant_dashboard.html', context)

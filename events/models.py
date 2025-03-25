@@ -18,16 +18,8 @@ class Event(models.Model):
     location = models.CharField(max_length=200)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='events')
-    participants = models.ManyToManyField(User, related_name="rsvp_events")
+    rsvps = models.ManyToManyField(
+        User, related_name="rsvp_events", blank=True)
 
     def __str__(self):
         return self.name
-
-
-# class Participant(models.Model):
-#     name = models.CharField(max_length=100)
-#     email = models.EmailField(unique=True)
-#     events = models.ManyToManyField(Event, related_name='participants')
-
-#     def __str__(self):
-#         return self.name

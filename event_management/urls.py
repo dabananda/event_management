@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('events/', include('events.urls')),
     path('register/', user_views.register, name='register'),
     path('login/', user_views.custom_login, name='login'),
@@ -12,7 +13,7 @@ urlpatterns = [
     path('activate/<int:user_id>/<str:token>/',
          user_views.activate_user, name='activate'),
 
-    # admin dashboard urls
+    # admin dashboard
     path('admin_dashboard/', user_views.admin_dashboard, name='admin_dashboard'),
     path('admin_dashboard/assign_role/<int:id>/',
          user_views.assign_role, name='assign_role'),
@@ -20,5 +21,5 @@ urlpatterns = [
          user_views.create_group, name='create_group'),
     path('admin_dashboard/group_list/',
          user_views.group_list, name='group_list'),
-    path('no_permission', user_views.no_permission, name='no_permission')
+    path('no_permission', user_views.no_permission, name='no_permission'),
 ]
