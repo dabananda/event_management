@@ -4,6 +4,11 @@ from django.utils.timezone import now
 from .models import Event, Category
 from datetime import datetime
 from events.forms import EventForm, CategoryForm
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+
+
+def is_organizer(user):
+    return user.groups.filter(name="Organizer").exists()
 
 
 def index(request):
@@ -45,6 +50,7 @@ def search_results(request):
     return render(request, 'events/search_results.html', context)
 
 
+@user_passes_test(is_organizer, login_url='no_permission')
 def organizer_dashboard(request):
     event_type = request.GET.get('type', 'today')
     category_id = request.GET.get('category')
@@ -107,7 +113,8 @@ def organizer_dashboard(request):
 
 
 # Event views
-
+@login_required
+@permission_required("events.add_event", login_url="no_permission")
 def create_event(request):
     form = EventForm(request.POST or None)
     if form.is_valid():
@@ -127,6 +134,8 @@ def all_events(request):
     return render(request, 'events/events_template/all_events.html', context)
 
 
+@login_required
+@permission_required("events.change_event", login_url="no_permission")
 def update_event(request, id):
     event = Event.objects.get(id=id)
     form = EventForm(request.POST or None, instance=event)
@@ -140,6 +149,8 @@ def update_event(request, id):
     return render(request, 'events/events_template/create_event.html', context)
 
 
+@login_required
+@permission_required("events.delete_event", login_url="no_permission")
 def delete_event(request, id):
     event = Event.objects.get(id=id)
     if request.method == 'POST':
@@ -151,6 +162,7 @@ def delete_event(request, id):
     return render(request, 'events/events_template/delete_event.html', context)
 
 
+@user_passes_test(is_organizer, login_url='no_permission')
 def event_detail(request, id):
     event = Event.objects.get(id=id)
     context = {
@@ -160,7 +172,7 @@ def event_detail(request, id):
 
 
 # Category views
-
+@user_passes_test(is_organizer, login_url='no_permission')
 def create_category(request):
     form = CategoryForm(request.POST or None)
     if form.is_valid():
@@ -172,6 +184,7 @@ def create_category(request):
     return render(request, 'events/create_category.html', context)
 
 
+@login_required
 def all_categories(request):
     categories = Category.objects.all()
     context = {
@@ -180,6 +193,7 @@ def all_categories(request):
     return render(request, 'events/categories.html', context)
 
 
+@user_passes_test(is_organizer, login_url='no_permission')
 def update_category(request, id):
     category = Category.objects.get(id=id)
     form = CategoryForm(request.POST or None, instance=category)
@@ -193,6 +207,7 @@ def update_category(request, id):
     return render(request, 'events/create_category.html', context)
 
 
+@user_passes_test(is_organizer, login_url='no_permission')
 def delete_category(request, id):
     category = Category.objects.get(id=id)
     if request.method == 'POST':
@@ -204,6 +219,7 @@ def delete_category(request, id):
     return render(request, 'events/delete_category.html', context)
 
 
+@login_required
 def events_by_category(request, id):
     category = Category.objects.get(id=id)
     events = Event.objects.filter(category=category)

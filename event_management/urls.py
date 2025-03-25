@@ -12,4 +12,13 @@ urlpatterns = [
     path('activate/<int:user_id>/<str:token>/',
          user_views.activate_user, name='activate'),
 
+    # admin dashboard urls
+    path('admin_dashboard/', user_views.admin_dashboard, name='admin_dashboard'),
+    path('admin_dashboard/assign_role/<int:id>/',
+         user_views.assign_role, name='assign_role'),
+    path('admin_dashboard/create_group/',
+         user_views.create_group, name='create_group'),
+    path('admin_dashboard/group_list/',
+         user_views.group_list, name='group_list'),
+    path('no_permission', user_views.no_permission, name='no_permission')
 ]

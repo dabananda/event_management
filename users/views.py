@@ -1,10 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from users.forms import RegisterForm, LoginForm
+from users.forms import RegisterForm, LoginForm, AssignRoleForm, CreateGroupForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+
+def is_admin(user):
+    return user.groups.filter(name="Admin").exists()
+
+
+def no_permission(request):
+    return render(request, 'users/no_permission.html')
 
 
 def register(request):
@@ -61,3 +70,67 @@ def activate_user(request, user_id, token):
             return HttpResponse("Invalid id or token")
     except User.DoesNotExist:
         return HttpResponse("User doesn't exist")
+
+
+@user_passes_test(is_admin, login_url='no_permission')
+def admin_dashboard(request):
+    users = User.objects.all()
+    context = {
+        'users': users,
+    }
+    return render(request, 'users/admin_dashboard.html', context)
+
+
+@user_passes_test(is_admin, login_url='no_permission')
+def assign_role(request, id):
+    user = User.objects.get(id=id)
+    form = AssignRoleForm()
+
+    if request.method == 'POST':
+        form = AssignRoleForm(request.POST)
+
+        if form.is_valid():
+            role = form.cleaned_data.get('role')
+            user.groups.clear()
+            user.groups.add(role)
+            messages.success(
+                request, f"{user.username} has been assigned to {role.name} role successfully!")
+            return redirect('admin_dashboard')
+
+    context = {
+        'form': form,
+        'user': user,
+    }
+
+    return render(request, 'users/assign_role.html', context)
+
+
+@user_passes_test(is_admin, login_url='no_permission')
+def create_group(request):
+    form = CreateGroupForm()
+
+    if request.method == 'POST':
+        form = CreateGroupForm(request.POST)
+
+        if form.is_valid():
+            group = form.save()
+            permissions = form.cleaned_data.get('permission')
+            group.permissions.set(permissions)
+            messages.success(
+                request, f"{group.name} has been created successfully!")
+            return redirect('create_group')
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'users/create_group.html', context)
+
+
+@user_passes_test(is_admin, login_url='no_permission')
+def group_list(request):
+    groups = Group.objects.all()
+    context = {
+        'groups': groups,
+    }
+    return render(request, 'users/group_list.html', context)

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from events.mixins import TailwindFormMixin
 
@@ -21,3 +21,23 @@ class LoginForm(TailwindFormMixin, AuthenticationForm):
 
     class Meta:
         fields = ['username', 'password']
+
+
+class AssignRoleForm(TailwindFormMixin, forms.Form):
+    role = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        empty_label="Select a role"
+    )
+
+
+class CreateGroupForm(TailwindFormMixin, forms.ModelForm):
+    permission = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Assign permissions",
+    )
+
+    class Meta:
+        model = Group
+        fields = ['name']

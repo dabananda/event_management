@@ -129,3 +129,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'satyajitroy2k20@gmail.com'
 EMAIL_HOST_PASSWORD = 'jlgy sute jrdi invj'
 SITE_URL = 'http://127.0.0.1:8000'
+
+
+LOGIN_URL = 'login'
