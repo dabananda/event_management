@@ -9,6 +9,7 @@ from events import views as event_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('', event_views.index, name='index'),
     path('events/', include('events.urls')),
     path('register/', user_views.register, name='register'),
     path('login/', user_views.custom_login, name='login'),
@@ -26,8 +27,13 @@ urlpatterns = [
          user_views.group_list, name='group_list'),
     path('no_permission', user_views.no_permission, name='no_permission'),
 
+    path('organizer_dashboard/', event_views.organizer_dashboard,
+         name='organizer_dashboard'),
+    path('participant_dashboard/', event_views.participant_dashboard,
+         name='participant_dashboard'),
+
     # Dashboard redirecting url
-    path('dashboard/', event_views.dashboard, name="dashboard")
+    path('dashboard/', event_views.dashboard, name="dashboard"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

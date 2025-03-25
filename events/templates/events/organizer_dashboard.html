@@ -23,7 +23,7 @@
   <div
     class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'all' %}ring-2 ring-blue-500{% endif %}"
   >
-    <a href="{% url 'events:organizer_dashboard' %}?type=all">
+    <a href="{% url 'organizer_dashboard' %}?type=all">
       <h5
         class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
@@ -40,7 +40,7 @@
   <div
     class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'upcoming' %}ring-2 ring-blue-500{% endif %}"
   >
-    <a href="{% url 'events:organizer_dashboard' %}?type=upcoming">
+    <a href="{% url 'organizer_dashboard' %}?type=upcoming">
       <h5
         class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
@@ -57,7 +57,7 @@
   <div
     class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 {% if current_type == 'past' %}ring-2 ring-blue-500{% endif %}"
   >
-    <a href="{% url 'events:organizer_dashboard' %}?type=past">
+    <a href="{% url 'organizer_dashboard' %}?type=past">
       <h5
         class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
       >
@@ -104,7 +104,7 @@
     
     <div class="flex items-end">
       <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Apply Filters</button>
-      <a href="{% url 'events:organizer_dashboard' %}?type={{ current_type }}" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600 mb-1">Reset</a>
+      <a href="{% url 'organizer_dashboard' %}?type={{ current_type }}" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600 mb-1">Reset</a>
     </div>
   </form>
 </div>

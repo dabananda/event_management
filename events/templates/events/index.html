@@ -210,11 +210,19 @@
         <div class="bg-white bg-opacity-10 rounded-lg overflow-hidden">
           <a href="{% url 'events:event_detail' event.id %}">
             <div class="relative">
-              <img
-                src="../../../static/images/past_events_ (3).jpg"
-                alt="Presentation"
-                class="w-full h-48 object-cover"
-              />
+            {% if event.image %}
+            <img
+              src="{{ event.image.url }}"
+              alt="{{ event.name }}"
+              class="w-full h-48 object-cover"
+            />
+            {% else %}
+            <img
+              src="{{ MEDIA_URL }}default_event.jpg"
+              alt="Default Event"
+              class="w-full h-48 object-cover"
+            />
+            {% endif %}
               <div class="absolute inset-0 flex items-center justify-center">
                 <button class="bg-yellow-500 rounded-full p-3">
                   <svg

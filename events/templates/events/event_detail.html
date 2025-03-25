@@ -1,11 +1,19 @@
 {% extends "events/base.html" %} {% block body %}
 <div class="container mx-auto px-4 py-12">
   <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    {% if event.image %}
     <img
-      src="../../../static/images/past_events_ (2).jpg"
+      src="{{ event.image.url }}"
       alt="{{ event.name }}"
-      class="w-full h-64 object-cover"
+      class="w-full h-48 object-cover"
     />
+    {% else %}
+    <img
+      src="{{ MEDIA_URL }}default_event.jpg"
+      alt="Default Event"
+      class="w-full h-48 object-cover"
+    />
+    {% endif %}
 
     <div class="p-6">
       <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ event.name }}</h2>
@@ -52,7 +60,7 @@
             {% csrf_token %}
             <button
               type="submit"
-              class="bg-blue-500 text-white px-4 py-2 rounded-md"
+              class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
             >
               RSVP Now
             </button>
@@ -66,7 +74,7 @@
 
         <div>
           <a
-            href="{% url 'events:index' %}"
+            href="{% url 'index' %}"
             class="bg-blue-500 text-white px-4 py-2 rounded-md"
             >Back to Home</a
           >

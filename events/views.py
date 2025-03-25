@@ -170,7 +170,6 @@ def delete_event(request, id):
     return render(request, 'events/events_template/delete_event.html', context)
 
 
-@user_passes_test(is_organizer, login_url='no_permission')
 def event_detail(request, id):
     event = Event.objects.get(id=id)
     context = {

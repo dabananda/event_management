@@ -4,21 +4,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static "css/output.css" %}" />
   </head>
   <body>
     <header class="bg-white shadow-md">
       <nav class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-          <a href="index.html" class="text-xl font-bold text-gray-800">Event</a>
+          <a href="{% url "index" %}" class="text-xl font-bold text-gray-800">Event</a>
           <div class="hidden md:flex space-x-4">
             <a
-              href="{% url 'admin_dashboard' %}"
+              href="{% url 'dashboard' %}"
               class="text-gray-600 hover:text-gray-800"
               >Dashboard</a
             >
-            <a href="#" class="text-gray-600 hover:text-gray-800">Events</a>
             <a
               href="{% url 'group_list' %}"
               class="text-gray-600 hover:text-gray-800"
@@ -34,11 +33,11 @@
             <div class="relative">
               <button
                 id="user-menu-button"
-                class="flex items-center focus:outline-none"
+                class="flex items-center focus:outline-none cursor-pointer"
               >
                 <img
                   class="h-8 w-8 rounded-full object-cover"
-                  src="https://placekitten.com/100/100"
+                  src="../../../static/images/default-profile-picture-transparent-hd-png.png"
                   alt="User avatar"
                 />
               </button>
@@ -47,11 +46,11 @@
                 class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden"
               >
                 <a
-                  href="manager-dashboard.html"
+                  href="{% url 'dashboard' %}"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >Dashboard</a
                 >
-                <form method="post" action="logout.html">
+                <form method="post" action="{% url 'logout' %}">
                   <button
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
@@ -85,12 +84,9 @@
         </div>
         <div id="mobile-menu" class="md:hidden hidden mt-4">
           <a
-            href="{% url 'admin_dashboard' %}"
+            href="{% url 'dashboard' %}"
             class="block py-2 text-gray-600 hover:text-gray-800"
             >Dashboard</a
-          >
-          <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
-            >Tasks</a
           >
           <a
             href="{% url 'group_list' %}"
@@ -108,7 +104,9 @@
 
     <main>
       <div class="container mx-auto px-6 py-4">
-        {% block content %} {% include "users/user_list.html" %} {% endblock %}
+        {% block content %}
+          {% include "users/user_list.html" %}
+        {% endblock %}
       </div>
     </main>
 
