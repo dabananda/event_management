@@ -66,24 +66,24 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 
 
 # Database: PostgreSQL
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DB_NAME', default=""),
-#         'USER': config('DB_USER', default=""),
-#         'PASSWORD': config('DB_PASSWORD', default=""),
-#         'HOST': config('DB_HOST', default="localhost"),
-#         'PORT': config('DB_PORT', cast=int)
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', default=""),
+        'USER': config('DB_USER', default=""),
+        'PASSWORD': config('DB_PASSWORD', default=""),
+        'HOST': config('DB_HOST', default="localhost"),
+        'PORT': config('DB_PORT', cast=int)
+    }
+}
 
 # Render PostgreSQL Configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://event_management_db_20yo_user:Eevos33mEsDI4SiPzGvwZ9dXa8hsJLob@dpg-cvhetnlumphs73amamq0-a.oregon-postgres.render.com/event_management_db_20yo',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://event_management_db_20yo_user:Eevos33mEsDI4SiPzGvwZ9dXa8hsJLob@dpg-cvhetnlumphs73amamq0-a.oregon-postgres.render.com/event_management_db_20yo',
+#         conn_max_age=600
+#     )
+# }
 
 
 # Password validation
