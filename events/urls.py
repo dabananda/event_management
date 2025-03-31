@@ -4,29 +4,31 @@ from events import views
 app_name = 'events'
 
 urlpatterns = [
-    path('search/', views.search_results, name='search_results'),
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
 
     # Event
-    path('create_event/', views.create_event,
+    path('create_event/', views.CreateEventView.as_view(),
          name='create_event'),
-    path('all_events/', views.all_events,
+    path('all_events/', views.AllEventsView.as_view(),
          name='all_events'),
-    path('update_event/<int:id>/', views.update_event, name='update_event'),
-    path('delete_event/<int:id>/', views.delete_event, name='delete_event'),
-    path('event/<int:id>/', views.event_detail, name='event_detail'),
+    path('update_event/<int:id>/',
+         views.UpdateEventView.as_view(), name='update_event'),
+    path('delete_event/<int:id>/',
+         views.DeleteEventView.as_view(), name='delete_event'),
+    path('event/<int:id>/', views.EventDetailView.as_view(), name='event_detail'),
 
     # Category
-    path('create_category/', views.create_category,
+    path('create_category/', views.CreateCategoryView.as_view(),
          name='create_category'),
-    path('all_categories/', views.all_categories,
+    path('all_categories/', views.AllCategoriesView.as_view(),
          name='all_categories'),
-    path('update_category/<int:id>', views.update_category,
+    path('update_category/<int:id>', views.UpdateCategoryView.as_view(),
          name='update_category'),
-    path('delete_category/<int:id>', views.delete_category,
+    path('delete_category/<int:id>', views.DeleteCategoryView.as_view(),
          name='delete_category'),
     path('category/<int:id>/',
-         views.events_by_category, name='events_by_category'),
+         views.EventsByCategoryView.as_view(), name='events_by_category'),
 
     # RSVP
-    path('rsvp/<int:event_id>/', views.rsvp_event, name='rsvp_event'),
+    path('rsvp/<int:event_id>/', views.RSVPEventView.as_view(), name='rsvp_event'),
 ]
