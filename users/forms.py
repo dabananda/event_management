@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from events.mixins import TailwindFormMixin
+from .models import Profile
 
 
 class RegisterForm(TailwindFormMixin, UserCreationForm):
@@ -41,3 +42,21 @@ class CreateGroupForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Group
         fields = ['name']
+
+
+class ProfileUpdateForm(TailwindFormMixin, forms.ModelForm):
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30, required=False)
+    email = forms.EmailField(required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['phone_number', 'profile_picture']
+        widgets = {
+            'profile_picture': forms.FileInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['phone_number'].required = False
+        self.fields['profile_picture'].required = False

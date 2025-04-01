@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from users.forms import RegisterForm, LoginForm, AssignRoleForm, CreateGroupForm
+from users.forms import RegisterForm, LoginForm, AssignRoleForm, CreateGroupForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .models import Profile
 
 
 def is_admin(user):
@@ -134,3 +135,42 @@ def group_list(request):
         'groups': groups,
     }
     return render(request, 'users/group_list.html', context)
+
+
+@login_required
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {
+        'profile': profile
+    }
+    return render(request, 'users/profile.html', context)
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile)
+
+        if form.is_valid():
+            user = request.user
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.save()
+            form.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect('profile')
+
+    else:
+        form = ProfileUpdateForm(instance=request.user.profile, initial={
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+        })
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'users/edit_profile.html', context)
