@@ -51,15 +51,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'event_management.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default=""),
+#         'USER': config('DB_USER', default=""),
+#         'PASSWORD': config('DB_PASSWORD', default=""),
+#         'HOST': config('DB_HOST', default="localhost"),
+#         'PORT': config('DB_PORT', cast=int)
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default=""),
-        'USER': config('DB_USER', default=""),
-        'PASSWORD': config('DB_PASSWORD', default=""),
-        'HOST': config('DB_HOST', default="localhost"),
-        'PORT': config('DB_PORT', cast=int)
-    }
+    'default': dj_database_url.config(
+        default='postgresql://event_management_db_85nq_user:pzKmfZtfLcIiGbeXAJRFKzvIcp5S7EpX@dpg-cvlq05mmcj7s73e826h0-a.oregon-postgres.render.com/event_management_db_85nq',
+        conn_max_age=600
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
