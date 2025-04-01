@@ -1,5 +1,5 @@
-{% extends "events/base.html" %}
-{% block body %}
+{% extends "users/profile_dashboard.html" %}
+{% block content %}
 <div
   class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8"
 >
@@ -23,45 +23,36 @@
         <div class="col-span-1 text-right font-semibold text-gray-600">
           Username:
         </div>
-        <div class="col-span-2 text-gray-800">{{ profile.username }}</div> <!-- Changed from profile.user.username -->
+        <div class="col-span-2 text-gray-800">{{ profile.username }}</div>
       </div>
 
       <div class="grid grid-cols-3 gap-4">
         <div class="col-span-1 text-right font-semibold text-gray-600">
           Email:
         </div>
-        <div class="col-span-2 text-gray-800">{{ profile.email }}</div> <!-- Changed from profile.user.email -->
+        <div class="col-span-2 text-gray-800">{{ profile.email }}</div>
       </div>
 
       <div class="grid grid-cols-3 gap-4">
         <div class="col-span-1 text-right font-semibold text-gray-600">
           First Name:
         </div>
-        <div class="col-span-2 text-gray-800">{{ profile.first_name }}</div> <!-- Changed from profile.user.first_name -->
+        <div class="col-span-2 text-gray-800">{{ profile.first_name }}</div>
       </div>
 
       <div class="grid grid-cols-3 gap-4">
         <div class="col-span-1 text-right font-semibold text-gray-600">
           Last Name:
         </div>
-        <div class="col-span-2 text-gray-800">{{ profile.last_name }}</div> <!-- Changed from profile.user.last_name -->
+        <div class="col-span-2 text-gray-800">{{ profile.last_name }}</div>
       </div>
 
       <div class="grid grid-cols-3 gap-4">
         <div class="col-span-1 text-right font-semibold text-gray-600">
           Phone:
         </div>
-        <div class="col-span-2 text-gray-800">{{ profile.phone_number }}</div> <!-- Already correct -->
+        <div class="col-span-2 text-gray-800">{{ profile.phone_number }}</div>
       </div>
-    </div>
-
-    <div class="p-6 bg-gray-50 text-center">
-      <a
-        href="{% url 'edit_profile' %}"
-        class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
-      >
-        Edit Profile
-      </a>
     </div>
   </div>
 </div>

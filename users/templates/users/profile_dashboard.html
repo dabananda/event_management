@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Dashboard</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.5/cdn.min.js"
+      defer
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
+  <body class="bg-gray-50">
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen overflow-hidden">
+      <!-- Mobile Menu Button -->
+      <div class="absolute top-4 left-4 md:hidden">
+        <button
+          @click="sidebarOpen = !sidebarOpen"
+          class="text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 p-2"
+        >
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Sidebar Overlay (For Mobile) -->
+      <div
+        x-show="sidebarOpen"
+        @click="sidebarOpen = false"
+        class="fixed inset-0 z-20 bg-black opacity-50 md:hidden"
+      ></div>
+
+      <!-- Sidebar -->
+      <div
+        :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}"
+        class="fixed inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300 ease-in-out bg-indigo-900 shadow-lg md:translate-x-0 md:static md:inset-0"
+      >
+        <div class="flex flex-col h-full gradient-bg text-white shadow-lg">
+          <div
+            class="px-4 py-6 flex flex-col items-center border-b border-indigo-800"
+          >
+            <div
+              class="h-20 w-20 rounded-full overflow-hidden border-4 border-white mb-3"
+            >
+              <img
+                src="{{ request.user.profile_picture.url }}"
+                alt="profile picture"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <h2 class="text-xl font-bold">
+              {{ request.user.first_name }} {{request.user.last_name }}
+            </h2>
+            <p class="text-indigo-200 text-sm">{{ request.user.username }}</p>
+          </div>
+
+          <!-- Navigation Links -->
+          <nav class="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
+            <a
+              href="{% url 'profile' %}"
+              class="flex items-center px-4 py-3 text-white rounded-lg transition duration-200 {% if request.resolver_match.url_name == 'profile' %}bg-indigo-800{% else %}hover:bg-indigo-800{% endif %}"
+            >
+              <i class="fas fa-user w-5 h-5 mr-3"></i>
+              <span>Profile</span>
+            </a>
+            <a
+              href="{% url 'edit_profile' %}"
+              class="flex items-center px-4 py-3 text-white rounded-lg transition duration-200 {% if request.resolver_match.url_name == 'edit_profile' %}bg-indigo-800{% else %}hover:bg-indigo-800{% endif %}"
+            >
+              <i class="fas fa-user-edit w-5 h-5 mr-3"></i>
+              <span>Edit Profile</span>
+            </a>
+            <a
+              href="{% url 'change_password' %}"
+              class="flex items-center px-4 py-3 text-white rounded-lg transition duration-200 {% if request.resolver_match.url_name == 'change_password' %}bg-indigo-800{% else %}hover:bg-indigo-800{% endif %}"
+            >
+              <i class="fas fa-key w-5 h-5 mr-3"></i>
+              <span>Change Password</span>
+            </a>
+            <a
+              href="{% url 'password_reset' %}"
+              class="flex items-center px-4 py-3 text-white rounded-lg transition duration-200 {% if request.resolver_match.url_name == 'password_reset' %}bg-indigo-800{% else %}hover:bg-indigo-800{% endif %}"
+            >
+              <i class="fas fa-redo-alt w-5 h-5 mr-3"></i>
+              <span>Reset Password</span>
+            </a>
+          </nav>
+
+          <!-- Logout -->
+          <div class="p-4 border-t border-indigo-800">
+            <form method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="w-full cursor-pointer flex items-center px-4 py-3 text-white hover:bg-indigo-800 rounded-lg transition duration-200"
+              >
+                <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
+                <span>Logout</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right-side Content -->
+      <div class="flex-1 flex flex-col overflow-hidden p-6">
+        {% block content %} {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

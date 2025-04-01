@@ -1,3 +1,5 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* events:index */
 
 .hero-section {
@@ -10,4 +12,13 @@
     background-image: linear-gradient(rgba(0, 0, 30, 0.8), rgba(20, 20, 100, 0.8)), url('../images/presentasion.jpg');
     background-size: cover;
     background-position: center;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
