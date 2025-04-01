@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 from decouple import config
 import dj_database_url
 
@@ -51,6 +50,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'event_management.wsgi.application'
 
+# Local PostgreSQL Configuration
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -62,10 +62,10 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 #     }
 # }
 
-
+# Render PostgreSQL Configuration
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://event_management_db_85nq_user:pzKmfZtfLcIiGbeXAJRFKzvIcp5S7EpX@dpg-cvlq05mmcj7s73e826h0-a.oregon-postgres.render.com/event_management_db_85nq',
+        default=config('DB_URL'),
         conn_max_age=600
     )
 }
@@ -101,4 +101,4 @@ LOGIN_URL = 'login'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-AUTH_USER_MODEL = 'users.CustomUser'  # Add this line
+AUTH_USER_MODEL = 'users.CustomUser'
